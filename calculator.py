@@ -58,7 +58,7 @@ division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff",  ac
 
 # Fourth Row
 dot_button = Button(window,width=4, height=1, bg="#0052cc", fg="#fff",  activebackground="#006cfa", font=('arial', 20, 'bold'), text=".").grid(
-    row=4, column=0,  padx=(15, 15), pady=(15, 10), sticky="nsew")
+    row=4, column=0,  padx=(15, 15), pady=(15, 15), sticky="nsew")
 zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="0").grid(
     row=4, column=1, pady=(0, 15), sticky="nsew")
 equal_button = Button(window, width=4, height=1, bg="#fa0000", fg="#fff", activebackground="#ff3b3b", font=('arial', 20, 'bold'), text="=").grid(
