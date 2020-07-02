@@ -2,18 +2,22 @@ from tkinter import *
 
 
 def number_click(value):
-    global number, is_operator_clicked
+    global number, is_operator_clicked, is_calculation_complete
     if is_operator_clicked == "true":
         number = str(value)
         display_value.set(number)
         is_operator_clicked = "false"
+    elif is_calculation_complete == "true":
+        number = str(value)
+        display_value.set(number)
+        is_calculation_complete = "false"
     else:
         number += str(value)
         display_value.set(number)
 
 
 def operator_click(operation):
-    global operator, is_operator_clicked, old_number, number, is_calculate_init
+    global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
     if is_calculate_init == "true":
         perform_operation(old_number, number, operator)
         is_operator_clicked = "true"
@@ -24,15 +28,36 @@ def operator_click(operation):
         old_number = number
         is_operator_clicked = "true"
         is_calculate_init = "true"
+    is_dot_clicked = "false"
+    is_calculation_complete = "false"
+
+
+def dot_click():
+    global number, is_dot_clicked, is_operator_clicked, is_calculation_complete
+    if is_dot_clicked == "false":
+        if is_operator_clicked == "true":
+            number = "0."
+            display_value.set(number)
+            is_operator_clicked = "false"
+        elif is_calculation_complete == "true":
+            number = "0."
+            display_value.set(number)
+            is_calculation_complete = "false"
+        else:
+            number += "."
+            display_value.set(number)
+        is_dot_clicked = "true"
 
 
 def equal_click():
-    global is_calculate_init
+    global is_calculate_init, is_dot_clicked, is_calculation_complete
     if is_calculate_init == "true":
         is_calculate_init = "false"
         perform_operation(old_number, number, operator)
     else:
         perform_operation(old_number, number, operator)
+    is_dot_clicked = "false"
+    is_calculation_complete = "true"
 
 
 def perform_operation(first_number, second_number, operate_with):
@@ -60,6 +85,8 @@ window.iconphoto(False, photo)
 # Variable Declaration
 is_operator_clicked = "false"
 is_calculate_init = "false"
+is_dot_clicked = "false"
+is_calculation_complete = "false"
 operator = ""
 number = ""
 old_number = ""
@@ -118,7 +145,7 @@ division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", act
 
 # Fourth Row
 dot_button = Button(window, width=4, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    font=('arial', 20, 'bold'), text=".").grid(
+                    font=('arial', 20, 'bold'), text=".", command=lambda: dot_click()).grid(
     row=4, column=0, padx=(15, 15), pady=(15, 15), sticky="nsew")
 zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="0",
                      command=lambda: number_click(0)).grid(
