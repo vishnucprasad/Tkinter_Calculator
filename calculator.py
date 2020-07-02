@@ -13,10 +13,26 @@ def number_click(value):
 
 
 def operator_click(operation):
-    global operator, is_operator_clicked, old_number, number
-    operator = operation
-    old_number = number
-    is_operator_clicked = "true"
+    global operator, is_operator_clicked, old_number, number, is_calculate_init
+    if is_calculate_init == "true":
+        perform_operation(old_number, number, operator)
+        is_operator_clicked = "true"
+        operator = operation
+        old_number = number
+    else:
+        operator = operation
+        old_number = number
+        is_operator_clicked = "true"
+        is_calculate_init = "true"
+
+
+def equal_click():
+    global is_calculate_init
+    if is_calculate_init == "true":
+        is_calculate_init = "false"
+        perform_operation(old_number, number, operator)
+    else:
+        perform_operation(old_number, number, operator)
 
 
 def perform_operation(first_number, second_number, operate_with):
@@ -43,6 +59,7 @@ window.iconphoto(False, photo)
 
 # Variable Declaration
 is_operator_clicked = "false"
+is_calculate_init = "false"
 operator = ""
 number = ""
 old_number = ""
@@ -108,7 +125,7 @@ zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ari
     row=4, column=1, pady=(0, 15), sticky="nsew")
 equal_button = Button(window, width=4, height=1, bg="#fa0000", fg="#fff", activebackground="#ff3b3b",
                       font=('arial', 20, 'bold'), text="=",
-                      command=lambda: perform_operation(old_number, number, operator)).grid(
+                      command=lambda: equal_click()).grid(
     row=4, column=2, padx=(15, 0), pady=(15, 15), sticky="nsew")
 plus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                      font=('arial', 20, 'bold'), text="+", command=lambda: operator_click("+")).grid(
