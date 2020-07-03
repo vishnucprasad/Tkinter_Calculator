@@ -2,6 +2,44 @@ import math
 from tkinter import *
 
 
+def plus_memory():
+    global memory, number, is_memory_used, is_operator_clicked
+    result = float(memory) + float(number)
+    integer = result.is_integer()
+    if integer:
+        memory = str(int(result))
+    else:
+        memory = str(result)
+    is_memory_used = True
+    is_operator_clicked = True
+
+
+def minus_memory():
+    global memory, number, is_memory_used, is_operator_clicked
+    result = float(memory) - float(number)
+    integer = result.is_integer()
+    if integer:
+        memory = str(int(result))
+    else:
+        memory = str(result)
+    is_memory_used = True
+    is_operator_clicked = True
+
+
+def recall_memory():
+    global memory, number, is_operator_clicked
+    if is_memory_used:
+        number = memory
+        display_value.set(number)
+        is_operator_clicked = True
+
+
+def clear_memory():
+    global memory, is_memory_used
+    memory = "0"
+    is_memory_used = False
+
+
 def number_click(value):
     global number, is_operator_clicked, is_calculation_complete, on_start
     if is_operator_clicked:
@@ -25,7 +63,7 @@ def operator_click(operation):
     global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
     if is_calculate_init:
         perform_operation(old_number, number, operator)
-        is_operator_clicked = False
+        is_operator_clicked = True
         operator = operation
         old_number = number
     else:
@@ -151,44 +189,43 @@ is_calculate_init = False
 is_dot_clicked = False
 is_calculation_complete = False
 is_positive = True
+is_memory_used = False
 operator = ""
 number = "0"
 old_number = ""
+memory = "0"
 display_value = StringVar()
 display_value.set("0")
 on_start = True
 
 # Setting Up Calculator Display
+# First Row
 display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
                 justify="right", state=DISABLED, disabledbackground="#aaa", disabledforeground="#0052cc").grid(
     columnspan=5)
 
 # Setting up Calculator Buttons
 memory_clear_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                             activeforeground="#fff", font=('arial', 20, 'bold'), text="MC", ).grid(row=1, column=0,
-                                                                                                    padx=(15, 0),
-                                                                                                    pady=(15, 0),
-                                                                                                    sticky="nsew")
+                             activeforeground="#fff", font=('arial', 20, 'bold'), text="MC",
+                             command=lambda: clear_memory()).grid(row=1, column=0, padx=(15, 0), pady=(15, 0),
+                                                                  sticky="nsew")
 memory_recall_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                              activeforeground="#fff", font=('arial', 20, 'bold'), text="MR", ).grid(row=1, column=1,
-                                                                                                     padx=(0, 0),
-                                                                                                     pady=(15, 0),
-                                                                                                     sticky="nsew")
+                              activeforeground="#fff", font=('arial', 20, 'bold'), text="MR",
+                              command=lambda: recall_memory()).grid(row=1, column=1, padx=(0, 0), pady=(15, 0),
+                                                                    sticky="nsew")
 memory_plus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                            activeforeground="#fff", font=('arial', 20, 'bold'), text="M+", ).grid(row=1, column=2,
-                                                                                                   padx=(0, 0),
-                                                                                                   pady=(15, 0),
-                                                                                                   sticky="nsew")
+                            activeforeground="#fff", font=('arial', 20, 'bold'), text="M+",
+                            command=lambda: plus_memory()).grid(row=1, column=2, padx=(0, 0), pady=(15, 0),
+                                                                sticky="nsew")
 memory_minus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                             activeforeground="#fff", font=('arial', 20, 'bold'), text="M-", ).grid(row=1, column=3,
-                                                                                                    padx=(0, 15),
-                                                                                                    pady=(15, 0),
-                                                                                                    sticky="nsew")
+                             activeforeground="#fff", font=('arial', 20, 'bold'), text="M-",
+                             command=lambda: minus_memory()).grid(row=1, column=3, padx=(0, 15), pady=(15, 0),
+                                                                  sticky="nsew")
 delete_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                        font=('arial', 20, 'bold'), text="⌫", ).grid(row=1, column=4, padx=(0, 15), pady=(15, 0),
-                                                                      sticky="nsew")
+                                                                    sticky="nsew")
 
-# First Row
+# Second Row
 seven_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="7",
                       command=lambda: number_click(7)).grid(row=2, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
 eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="8",
@@ -202,7 +239,7 @@ clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", active
                       font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(
     row=2, column=4, padx=(0, 15), pady=(15, 15), sticky="nsew")
 
-# Second Row
+# Third Row
 four_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="4",
                      command=lambda: number_click(4)).grid(row=3, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
 five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="5",
@@ -212,13 +249,11 @@ six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('aria
 negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                          font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click()).grid(
     row=3, column=3, padx=(15, 0), sticky="nsew")
-# Setting square root button icon
-# root_icon = PhotoImage(file="icons/root.png")
 root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                      font=('arial', 20, 'bold'), text="√ ", command=lambda: root_click()).grid(
     row=3, column=4, padx=(0, 15), sticky="nsew")
 
-# Third Row
+# Fourth Row
 one_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="1",
                     command=lambda: number_click(1)).grid(row=4, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
 two_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="2",
@@ -234,7 +269,7 @@ division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", act
                          font=('arial', 20, 'bold'), text="÷", command=lambda: operator_click("/")).grid(
     row=4, column=4, padx=(0, 15), sticky="nsew")
 
-# Fourth Row
+# Fifth Row
 dot_button = Button(window, width=4, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     font=('arial', 20, 'bold'), text=".", command=lambda: dot_click()).grid(
     row=5, column=0, padx=(15, 15), pady=(15, 15), sticky="nsew")
