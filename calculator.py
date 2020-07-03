@@ -1,38 +1,117 @@
+import math
 from tkinter import *
 
 
 def number_click(value):
-    global number, is_operator_clicked
-    if is_operator_clicked == "true":
+    global number, is_operator_clicked, is_calculation_complete, on_start
+    if is_operator_clicked:
         number = str(value)
         display_value.set(number)
-        is_operator_clicked = "false"
+        is_operator_clicked = False
+    elif is_calculation_complete:
+        number = str(value)
+        display_value.set(number)
+        is_calculation_complete = False
+    elif on_start:
+        number = str(value)
+        display_value.set(number)
+        on_start = False
     else:
         number += str(value)
         display_value.set(number)
 
 
 def operator_click(operation):
-    global operator, is_operator_clicked, old_number, number, is_calculate_init
-    if is_calculate_init == "true":
+    global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
+    if is_calculate_init:
         perform_operation(old_number, number, operator)
-        is_operator_clicked = "true"
+        is_operator_clicked = False
         operator = operation
         old_number = number
     else:
         operator = operation
         old_number = number
-        is_operator_clicked = "true"
-        is_calculate_init = "true"
+        is_operator_clicked = True
+        is_calculate_init = True
+    is_dot_clicked = False
+    is_calculation_complete = False
+
+
+def negative_click():
+    global number, is_positive
+    if is_positive:
+        number = "-" + number
+        display_value.set(number)
+        is_positive = False
+    elif not is_positive:
+        positive_value = float(number) * -1
+        integer = positive_value.is_integer()
+        if integer:
+            number = str(int(positive_value))
+        else:
+            number = str(positive_value)
+        display_value.set(number)
+        is_positive = True
+
+
+def root_click():
+    global number, is_calculation_complete
+    result = math.sqrt(float(number))
+    integer = result.is_integer()
+    if integer:
+        number = str(int(result))
+    else:
+        number = str(result)
+    display_value.set(number)
+    is_calculation_complete = True
+
+
+def dot_click():
+    global number, is_dot_clicked, is_operator_clicked, is_calculation_complete
+    if not is_dot_clicked:
+        if is_operator_clicked:
+            number = "0."
+            display_value.set(number)
+            is_operator_clicked = False
+        elif is_calculation_complete:
+            number = "0."
+            display_value.set(number)
+            is_calculation_complete = False
+        else:
+            number += "."
+            display_value.set(number)
+        is_dot_clicked = True
 
 
 def equal_click():
-    global is_calculate_init
-    if is_calculate_init == "true":
-        is_calculate_init = "false"
+    global is_calculate_init, is_dot_clicked, is_calculation_complete
+    if is_calculate_init:
+        is_calculate_init = False
         perform_operation(old_number, number, operator)
     else:
         perform_operation(old_number, number, operator)
+    is_dot_clicked = False
+    is_calculation_complete = True
+
+
+def clear():
+    global number, operator, old_number, is_calculate_init, is_operator_clicked, is_dot_clicked, is_calculation_complete, on_start
+    is_calculate_init = False
+    is_calculation_complete = False
+    is_dot_clicked = False
+    is_operator_clicked = False
+    on_start = True
+    operator = ''
+    old_number = ""
+    number = "0"
+    display_value.set(number)
+
+
+def clear_entry():
+    global number, on_start
+    on_start = True
+    number = "0"
+    display_value.set(number)
 
 
 def perform_operation(first_number, second_number, operate_with):
@@ -45,8 +124,13 @@ def perform_operation(first_number, second_number, operate_with):
         result = float(first_number) * float(second_number)
     elif operate_with == "/":
         result = float(first_number) / float(second_number)
-    display_value.set(str(result))
-    number = str(result)
+    integer = result.is_integer()
+    if integer:
+        to_display = int(result)
+    else:
+        to_display = result
+    display_value.set(str(to_display))
+    number = str(to_display)
 
 
 # Setting Up Calculator Window
@@ -58,12 +142,17 @@ photo = PhotoImage(file="icons/icon.png")
 window.iconphoto(False, photo)
 
 # Variable Declaration
-is_operator_clicked = "false"
-is_calculate_init = "false"
+is_operator_clicked = False
+is_calculate_init = False
+is_dot_clicked = False
+is_calculation_complete = False
+is_positive = True
 operator = ""
-number = ""
+number = "0"
 old_number = ""
 display_value = StringVar()
+display_value.set("0")
+on_start = True
 
 # Setting Up Calculator Display
 display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
@@ -77,11 +166,11 @@ eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ar
                       command=lambda: number_click(8)).grid(row=1, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
 nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
                      command=lambda: number_click(9)).grid(row=1, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-CE_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                   font=('arial', 20, 'bold'), text="CE").grid(
+clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
+                            font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(
     row=1, column=3, padx=(15, 0), pady=(15, 15), sticky="nsew")
 clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                      font=('arial', 20, 'bold'), text="C").grid(
+                      font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(
     row=1, column=4, padx=(0, 15), pady=(15, 15), sticky="nsew")
 
 # Second Row
@@ -92,12 +181,12 @@ five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ari
 six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="6",
                     command=lambda: number_click(6)).grid(row=2, column=2, sticky="nsew")
 negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="+/-").grid(
+                         font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click()).grid(
     row=2, column=3, padx=(15, 0), sticky="nsew")
 # Setting square root button icon
 root_icon = PhotoImage(file="icons/root.png")
 root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                     font=('arial', 20, 'bold'), image=root_icon).grid(
+                     font=('arial', 20, 'bold'), image=root_icon, command=lambda: root_click()).grid(
     row=2, column=4, padx=(0, 15), sticky="nsew")
 
 # Third Row
@@ -118,7 +207,7 @@ division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", act
 
 # Fourth Row
 dot_button = Button(window, width=4, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    font=('arial', 20, 'bold'), text=".").grid(
+                    font=('arial', 20, 'bold'), text=".", command=lambda: dot_click()).grid(
     row=4, column=0, padx=(15, 15), pady=(15, 15), sticky="nsew")
 zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="0",
                      command=lambda: number_click(0)).grid(
