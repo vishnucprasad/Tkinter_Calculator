@@ -36,6 +36,23 @@ def operator_click(operation):
     is_calculation_complete = False
 
 
+def negative_click():
+    global number, is_positive
+    if is_positive:
+        number = "-" + number
+        display_value.set(number)
+        is_positive = False
+    elif not is_positive:
+        positive_value = float(number) * -1
+        integer = positive_value.is_integer()
+        if integer:
+            number = str(int(positive_value))
+        else:
+            number = str(positive_value)
+        display_value.set(number)
+        is_positive = True
+
+
 def dot_click():
     global number, is_dot_clicked, is_operator_clicked, is_calculation_complete
     if not is_dot_clicked:
@@ -116,6 +133,7 @@ is_operator_clicked = False
 is_calculate_init = False
 is_dot_clicked = False
 is_calculation_complete = False
+is_positive = True
 operator = ""
 number = "0"
 old_number = ""
@@ -150,7 +168,7 @@ five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ari
 six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="6",
                     command=lambda: number_click(6)).grid(row=2, column=2, sticky="nsew")
 negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="+/-").grid(
+                         font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click()).grid(
     row=2, column=3, padx=(15, 0), sticky="nsew")
 # Setting square root button icon
 root_icon = PhotoImage(file="icons/root.png")
