@@ -67,7 +67,7 @@ def root_click():
 
 
 def dot_click():
-    global number, is_dot_clicked, is_operator_clicked, is_calculation_complete
+    global number, is_dot_clicked, is_operator_clicked, is_calculation_complete, on_start
     if not is_dot_clicked:
         if is_operator_clicked:
             number = "0."
@@ -77,6 +77,10 @@ def dot_click():
             number = "0."
             display_value.set(number)
             is_calculation_complete = False
+        elif on_start:
+            number = "0."
+            display_value.set(number)
+            on_start = False
         else:
             number += "."
             display_value.set(number)
@@ -156,7 +160,7 @@ on_start = True
 
 # Setting Up Calculator Display
 display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
-                bg="#aaa", fg="#0052cc", justify="right").grid(columnspan=5)
+                justify="right", state=DISABLED, disabledbackground="#aaa", disabledforeground="#0052cc").grid(columnspan=5)
 
 # Setting up Calculator Buttons
 # First Row
