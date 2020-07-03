@@ -88,8 +88,13 @@ def perform_operation(first_number, second_number, operate_with):
         result = float(first_number) * float(second_number)
     elif operate_with == "/":
         result = float(first_number) / float(second_number)
-    display_value.set(str(result))
-    number = str(result)
+    temp = result.is_integer()
+    if temp:
+        to_display = int(result)
+    else:
+        to_display = result
+    display_value.set(str(to_display))
+    number = str(to_display)
 
 
 # Setting Up Calculator Window
@@ -123,7 +128,7 @@ eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ar
 nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
                      command=lambda: number_click(9)).grid(row=1, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
 clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                   font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(
+                            font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(
     row=1, column=3, padx=(15, 0), pady=(15, 15), sticky="nsew")
 clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
                       font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(
