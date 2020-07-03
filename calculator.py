@@ -136,6 +136,17 @@ def equal_click():
     is_calculation_complete = True
 
 
+def delete():
+    global number, on_start
+    length = len(number)
+    if length >= 2:
+        number = number[0:-1]
+    else:
+        number = "0"
+        on_start = True
+    display_value.set(number)
+
+
 def clear():
     global number, operator, old_number, is_calculate_init, is_operator_clicked, is_dot_clicked, is_calculation_complete, on_start
     is_calculate_init = False
@@ -222,7 +233,7 @@ memory_minus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff",
                              command=lambda: minus_memory()).grid(row=1, column=3, padx=(0, 15), pady=(15, 0),
                                                                   sticky="nsew")
 delete_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                       font=('arial', 20, 'bold'), text="⌫", ).grid(row=1, column=4, padx=(0, 15), pady=(15, 0),
+                       font=('arial', 20, 'bold'), text="⌫", command=lambda: delete()).grid(row=1, column=4, padx=(0, 15), pady=(15, 0),
                                                                     sticky="nsew")
 
 # Second Row
