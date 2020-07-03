@@ -60,6 +60,24 @@ def equal_click():
     is_calculation_complete = "true"
 
 
+def clear():
+    global number, operator, old_number, is_calculate_init, is_operator_clicked, is_dot_clicked, is_calculation_complete
+    is_calculate_init = "false"
+    is_calculation_complete = "false"
+    is_dot_clicked = "false"
+    is_operator_clicked = "false"
+    operator = ''
+    old_number = ""
+    number = ""
+    display_value.set(number)
+
+
+def clear_entry():
+    global number
+    number = ""
+    display_value.set(number)
+
+
 def perform_operation(first_number, second_number, operate_with):
     global number
     if operate_with == "+":
@@ -104,11 +122,11 @@ eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ar
                       command=lambda: number_click(8)).grid(row=1, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
 nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
                      command=lambda: number_click(9)).grid(row=1, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-CE_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                   font=('arial', 20, 'bold'), text="CE").grid(
+clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
+                   font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(
     row=1, column=3, padx=(15, 0), pady=(15, 15), sticky="nsew")
 clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                      font=('arial', 20, 'bold'), text="C").grid(
+                      font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(
     row=1, column=4, padx=(0, 15), pady=(15, 15), sticky="nsew")
 
 # Second Row
