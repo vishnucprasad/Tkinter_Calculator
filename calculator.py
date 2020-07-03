@@ -2,15 +2,19 @@ from tkinter import *
 
 
 def number_click(value):
-    global number, is_operator_clicked, is_calculation_complete
-    if is_operator_clicked == "true":
+    global number, is_operator_clicked, is_calculation_complete, on_start
+    if is_operator_clicked:
         number = str(value)
         display_value.set(number)
-        is_operator_clicked = "false"
-    elif is_calculation_complete == "true":
+        is_operator_clicked = False
+    elif is_calculation_complete:
         number = str(value)
         display_value.set(number)
-        is_calculation_complete = "false"
+        is_calculation_complete = False
+    elif on_start:
+        number = str(value)
+        display_value.set(number)
+        on_start = False
     else:
         number += str(value)
         display_value.set(number)
@@ -18,63 +22,65 @@ def number_click(value):
 
 def operator_click(operation):
     global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
-    if is_calculate_init == "true":
+    if is_calculate_init:
         perform_operation(old_number, number, operator)
-        is_operator_clicked = "true"
+        is_operator_clicked = False
         operator = operation
         old_number = number
     else:
         operator = operation
         old_number = number
-        is_operator_clicked = "true"
-        is_calculate_init = "true"
-    is_dot_clicked = "false"
-    is_calculation_complete = "false"
+        is_operator_clicked = True
+        is_calculate_init = True
+    is_dot_clicked = False
+    is_calculation_complete = False
 
 
 def dot_click():
     global number, is_dot_clicked, is_operator_clicked, is_calculation_complete
-    if is_dot_clicked == "false":
-        if is_operator_clicked == "true":
+    if not is_dot_clicked:
+        if is_operator_clicked:
             number = "0."
             display_value.set(number)
-            is_operator_clicked = "false"
-        elif is_calculation_complete == "true":
+            is_operator_clicked = False
+        elif is_calculation_complete:
             number = "0."
             display_value.set(number)
-            is_calculation_complete = "false"
+            is_calculation_complete = False
         else:
             number += "."
             display_value.set(number)
-        is_dot_clicked = "true"
+        is_dot_clicked = True
 
 
 def equal_click():
     global is_calculate_init, is_dot_clicked, is_calculation_complete
-    if is_calculate_init == "true":
-        is_calculate_init = "false"
+    if is_calculate_init:
+        is_calculate_init = False
         perform_operation(old_number, number, operator)
     else:
         perform_operation(old_number, number, operator)
-    is_dot_clicked = "false"
-    is_calculation_complete = "true"
+    is_dot_clicked = False
+    is_calculation_complete = True
 
 
 def clear():
-    global number, operator, old_number, is_calculate_init, is_operator_clicked, is_dot_clicked, is_calculation_complete
-    is_calculate_init = "false"
-    is_calculation_complete = "false"
-    is_dot_clicked = "false"
-    is_operator_clicked = "false"
+    global number, operator, old_number, is_calculate_init, is_operator_clicked, is_dot_clicked, is_calculation_complete, on_start
+    is_calculate_init = False
+    is_calculation_complete = False
+    is_dot_clicked = False
+    is_operator_clicked = False
+    on_start = True
     operator = ''
     old_number = ""
-    number = ""
+    number = "0"
     display_value.set(number)
 
 
 def clear_entry():
-    global number
-    number = ""
+    global number, on_start
+    on_start = True
+    number = "0"
     display_value.set(number)
 
 
@@ -88,8 +94,8 @@ def perform_operation(first_number, second_number, operate_with):
         result = float(first_number) * float(second_number)
     elif operate_with == "/":
         result = float(first_number) / float(second_number)
-    temp = result.is_integer()
-    if temp:
+    integer = result.is_integer()
+    if integer:
         to_display = int(result)
     else:
         to_display = result
@@ -106,14 +112,16 @@ photo = PhotoImage(file="icons/icon.png")
 window.iconphoto(False, photo)
 
 # Variable Declaration
-is_operator_clicked = "false"
-is_calculate_init = "false"
-is_dot_clicked = "false"
-is_calculation_complete = "false"
+is_operator_clicked = False
+is_calculate_init = False
+is_dot_clicked = False
+is_calculation_complete = False
 operator = ""
-number = ""
+number = "0"
 old_number = ""
 display_value = StringVar()
+display_value.set("0")
+on_start = True
 
 # Setting Up Calculator Display
 display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
