@@ -1,3 +1,4 @@
+import math
 from tkinter import *
 
 
@@ -51,6 +52,18 @@ def negative_click():
             number = str(positive_value)
         display_value.set(number)
         is_positive = True
+
+
+def root_click():
+    global number, is_calculation_complete
+    result = math.sqrt(float(number))
+    integer = result.is_integer()
+    if integer:
+        number = str(int(result))
+    else:
+        number = str(result)
+    display_value.set(number)
+    is_calculation_complete = True
 
 
 def dot_click():
@@ -173,7 +186,7 @@ negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", act
 # Setting square root button icon
 root_icon = PhotoImage(file="icons/root.png")
 root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                     font=('arial', 20, 'bold'), image=root_icon).grid(
+                     font=('arial', 20, 'bold'), image=root_icon, command=lambda: root_click()).grid(
     row=2, column=4, padx=(0, 15), sticky="nsew")
 
 # Third Row
