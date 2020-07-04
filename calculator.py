@@ -61,7 +61,7 @@ def number_click(value):
 
 
 def operator_click(operation):
-    global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
+    global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete, on_start
     if is_operator_clicked:
         operator = operation
     elif is_calculate_init:
@@ -74,8 +74,22 @@ def operator_click(operation):
         old_number = number
         is_operator_clicked = True
         is_calculate_init = True
+    on_start = False
     is_dot_clicked = False
     is_calculation_complete = False
+
+
+def one_by_x_click():
+    global number, is_calculation_complete
+    value = float(number)
+    value = 1 / value
+    integer = value.is_integer()
+    if integer:
+        number = str(int(value))
+    else:
+        number = str(value)
+    display_value.set(number)
+    is_calculation_complete = True
 
 
 def negative_click():
@@ -95,6 +109,19 @@ def negative_click():
         is_positive = True
 
 
+def square_click():
+    global number, is_calculation_complete
+    value = float(number)
+    value *= value
+    integer = value.is_integer()
+    if integer:
+        number = str(int(value))
+    else:
+        number = str(value)
+    display_value.set(number)
+    is_calculation_complete = True
+
+
 def root_click():
     global number, is_calculation_complete
     result = math.sqrt(float(number))
@@ -105,6 +132,28 @@ def root_click():
         number = str(result)
     display_value.set(number)
     is_calculation_complete = True
+
+
+def cube_root():
+    global number, is_calculation_complete
+    value = float(number)
+    if value >= 0:
+        result = value ** (1. / 3.)
+    else:
+        result = -(-value) ** (1. / 3.)
+    integer = result.is_integer()
+    if integer:
+        number = str(int(result))
+    else:
+        number = str(result)
+    display_value.set(number)
+    is_calculation_complete = True
+
+
+def pi_click():
+    global number
+    number = "3.141592653589793"
+    display_value.set(number)
 
 
 def dot_click():
@@ -180,6 +229,8 @@ def perform_operation(first_number, second_number, operate_with):
         result = float(first_number) * float(second_number)
     elif operate_with == "/":
         result = float(first_number) / float(second_number)
+    elif operate_with == "^":
+        result = float(first_number) ** float(second_number)
     integer = result.is_integer()
     if integer:
         to_display = int(result)
@@ -237,21 +288,28 @@ memory_minus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff",
                              activeforeground="#fff", font=('arial', 20, 'bold'), text="M-",
                              command=lambda: minus_memory()).grid(row=1, column=3, padx=(0, 15), pady=(15, 0),
                                                                   sticky="nsew")
-delete_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+delete_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
                        font=('arial', 20, 'bold'), text="⌫", command=lambda: delete()).grid(row=1, column=4,
                                                                                             padx=(0, 15), pady=(15, 0),
                                                                                             sticky="nsew")
 
 # Second Row
 one_by_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="¹/x").grid(row=2, column=0, padx=(15, 0), pady=(15, 0),
-                                                                      sticky="nsew")
+                         font=('arial', 20, 'bold'), text="¹/x", command=lambda: one_by_x_click()).grid(row=2, column=0,
+                                                                                                        padx=(15, 0),
+                                                                                                        pady=(15, 0),
+                                                                                                        sticky="nsew")
 square_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                       font=('arial', 20, 'bold'), text="x²").grid(row=2, column=1, padx=(0, 0), pady=(15, 0),
-                                                                   sticky="nsew")
+                       font=('arial', 20, 'bold'), text="x²", command=lambda: square_click()).grid(row=2, column=1,
+                                                                                                   padx=(0, 0),
+                                                                                                   pady=(15, 0),
+                                                                                                   sticky="nsew")
 raise_to_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="xʸ").grid(row=2, column=2, padx=(0, 0), pady=(15, 0),
-                                                                     sticky="nsew")
+                         font=('arial', 20, 'bold'), text="xʸ", command=lambda: operator_click("^")).grid(row=2,
+                                                                                                          column=2,
+                                                                                                          padx=(0, 0),
+                                                                                                          pady=(15, 0),
+                                                                                                          sticky="nsew")
 clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
                             font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(row=2, column=3,
                                                                                                        padx=(15, 0),
@@ -269,11 +327,14 @@ eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('ar
 nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
                      command=lambda: number_click(9)).grid(row=3, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
 pi_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                   font=('arial', 20, 'bold'), text="π").grid(row=3, column=3, padx=(15, 0), pady=(15, 0),
-                                                              sticky="nsew")
+                   font=('arial', 20, 'bold'), text="π", command=lambda: pi_click()).grid(row=3, column=3, padx=(15, 0),
+                                                                                          pady=(15, 0),
+                                                                                          sticky="nsew")
 cube_root_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                          font=('arial', 20, 'bold'), text="∛").grid(row=3, column=4, padx=(0, 15), pady=(15, 0),
-                                                                     sticky="nsew")
+                          font=('arial', 20, 'bold'), text="∛", command=lambda: cube_root()).grid(row=3, column=4,
+                                                                                                  padx=(0, 15),
+                                                                                                  pady=(15, 0),
+                                                                                                  sticky="nsew")
 
 # Fourth Row
 four_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="4",
