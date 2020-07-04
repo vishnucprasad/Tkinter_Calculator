@@ -27,11 +27,12 @@ def minus_memory():
 
 
 def recall_memory():
-    global memory, number, is_memory_clicked
+    global memory, number, is_memory_clicked ,on_start
     if is_memory_used:
         number = memory
         display_value.set(number)
         is_memory_clicked = True
+        on_start = False
 
 
 def clear_memory():
@@ -81,15 +82,19 @@ def operator_click(operation):
 
 def one_by_x_click():
     global number, is_calculation_complete
-    value = float(number)
-    value = 1 / value
-    integer = value.is_integer()
-    if integer:
-        number = str(int(value))
+    if number == "0":
+        display_value.set("Cannot divide by zero")
+        is_calculation_complete = True
     else:
-        number = str(value)
-    display_value.set(number)
-    is_calculation_complete = True
+        value = float(number)
+        value = 1 / value
+        integer = value.is_integer()
+        if integer:
+            number = str(int(value))
+        else:
+            number = str(value)
+        display_value.set(number)
+        is_calculation_complete = True
 
 
 def negative_click():
@@ -189,7 +194,7 @@ def equal_click():
 
 
 def delete():
-    global number, on_start
+    global number, on_start ,is_operator_clicked, is_memory_clicked
     length = len(number)
     if length >= 2:
         number = number[0:-1]
@@ -197,6 +202,8 @@ def delete():
         number = "0"
         on_start = True
     display_value.set(number)
+    is_operator_clicked = False
+    is_memory_clicked = False
 
 
 def clear():
@@ -220,7 +227,7 @@ def clear_entry():
 
 
 def perform_operation(first_number, second_number, operate_with):
-    global number
+    global number, is_zero_division_error
     if operate_with == "+":
         result = float(first_number) + float(second_number)
     elif operate_with == "-":
@@ -228,16 +235,23 @@ def perform_operation(first_number, second_number, operate_with):
     elif operate_with == '*':
         result = float(first_number) * float(second_number)
     elif operate_with == "/":
-        result = float(first_number) / float(second_number)
+        if int(second_number) == 0:
+            display_value.set("Cannot divide by zero")
+            is_zero_division_error = True
+        else:
+            result = float(first_number) / float(second_number)
     elif operate_with == "^":
         result = float(first_number) ** float(second_number)
-    integer = result.is_integer()
-    if integer:
-        to_display = int(result)
+    if is_zero_division_error:
+        is_zero_division_error = False
     else:
-        to_display = result
-    display_value.set(str(to_display))
-    number = str(to_display)
+        integer = result.is_integer()
+        if integer:
+            to_display = int(result)
+        else:
+            to_display = result
+        display_value.set(str(to_display))
+        number = str(to_display)
 
 
 # Setting Up Calculator Window
@@ -256,6 +270,7 @@ is_calculation_complete = False
 is_positive = True
 is_memory_used = False
 is_memory_clicked = False
+is_zero_division_error = False
 operator = "+"
 number = "0"
 old_number = "0"
