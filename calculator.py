@@ -3,7 +3,7 @@ from tkinter import *
 
 
 def plus_memory():
-    global memory, number, is_memory_used, is_operator_clicked
+    global memory, number, is_memory_used, is_memory_clicked
     result = float(memory) + float(number)
     integer = result.is_integer()
     if integer:
@@ -11,11 +11,11 @@ def plus_memory():
     else:
         memory = str(result)
     is_memory_used = True
-    is_operator_clicked = True
+    is_memory_clicked = True
 
 
 def minus_memory():
-    global memory, number, is_memory_used, is_operator_clicked
+    global memory, number, is_memory_used, is_memory_clicked
     result = float(memory) - float(number)
     integer = result.is_integer()
     if integer:
@@ -23,15 +23,15 @@ def minus_memory():
     else:
         memory = str(result)
     is_memory_used = True
-    is_operator_clicked = True
+    is_memory_clicked = True
 
 
 def recall_memory():
-    global memory, number, is_operator_clicked
+    global memory, number, is_memory_clicked
     if is_memory_used:
         number = memory
         display_value.set(number)
-        is_operator_clicked = True
+        is_memory_clicked = True
 
 
 def clear_memory():
@@ -41,11 +41,12 @@ def clear_memory():
 
 
 def number_click(value):
-    global number, is_operator_clicked, is_calculation_complete, on_start
-    if is_operator_clicked:
+    global number, is_operator_clicked, is_calculation_complete, on_start, is_memory_clicked
+    if is_operator_clicked or is_memory_clicked:
         number = str(value)
         display_value.set(number)
         is_operator_clicked = False
+        is_memory_clicked = False
     elif is_calculation_complete:
         number = str(value)
         display_value.set(number)
@@ -61,7 +62,9 @@ def number_click(value):
 
 def operator_click(operation):
     global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete
-    if is_calculate_init:
+    if is_operator_clicked:
+        operator = operation
+    elif is_calculate_init:
         perform_operation(old_number, number, operator)
         is_operator_clicked = True
         operator = operation
@@ -201,6 +204,7 @@ is_dot_clicked = False
 is_calculation_complete = False
 is_positive = True
 is_memory_used = False
+is_memory_clicked = False
 operator = ""
 number = "0"
 old_number = ""
