@@ -157,8 +157,8 @@ def clear():
     is_dot_clicked = False
     is_operator_clicked = False
     on_start = True
-    operator = ''
-    old_number = ""
+    operator = "+"
+    old_number = "0"
     number = "0"
     display_value.set(number)
 
@@ -205,9 +205,9 @@ is_calculation_complete = False
 is_positive = True
 is_memory_used = False
 is_memory_clicked = False
-operator = ""
+operator = "+"
 number = "0"
-old_number = ""
+old_number = "0"
 memory = "0"
 display_value = StringVar()
 display_value.set("0")
@@ -220,6 +220,7 @@ display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, 
     columnspan=5)
 
 # Setting up Calculator Buttons
+# First Row
 memory_clear_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
                              activeforeground="#fff", font=('arial', 20, 'bold'), text="MC",
                              command=lambda: clear_memory()).grid(row=1, column=0, padx=(15, 0), pady=(15, 0),
@@ -237,70 +238,88 @@ memory_minus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff",
                              command=lambda: minus_memory()).grid(row=1, column=3, padx=(0, 15), pady=(15, 0),
                                                                   sticky="nsew")
 delete_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                       font=('arial', 20, 'bold'), text="⌫", command=lambda: delete()).grid(row=1, column=4, padx=(0, 15), pady=(15, 0),
-                                                                    sticky="nsew")
+                       font=('arial', 20, 'bold'), text="⌫", command=lambda: delete()).grid(row=1, column=4,
+                                                                                            padx=(0, 15), pady=(15, 0),
+                                                                                            sticky="nsew")
 
 # Second Row
-seven_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="7",
-                      command=lambda: number_click(7)).grid(row=2, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
-eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="8",
-                      command=lambda: number_click(8)).grid(row=2, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
-nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
-                     command=lambda: number_click(9)).grid(row=2, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
+one_by_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                         font=('arial', 20, 'bold'), text="¹/x").grid(row=2, column=0, padx=(15, 0), pady=(15, 0),
+                                                                      sticky="nsew")
+square_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                       font=('arial', 20, 'bold'), text="x²").grid(row=2, column=1, padx=(0, 0), pady=(15, 0),
+                                                                   sticky="nsew")
+raise_to_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                         font=('arial', 20, 'bold'), text="xʸ").grid(row=2, column=2, padx=(0, 0), pady=(15, 0),
+                                                                     sticky="nsew")
 clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                            font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(
-    row=2, column=3, padx=(15, 0), pady=(15, 15), sticky="nsew")
+                            font=('arial', 20, 'bold'), text="CE", command=lambda: clear_entry()).grid(row=2, column=3,
+                                                                                                       padx=(15, 0),
+                                                                                                       pady=(15, 0),
+                                                                                                       sticky="nsew")
 clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                      font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(
-    row=2, column=4, padx=(0, 15), pady=(15, 15), sticky="nsew")
+                      font=('arial', 20, 'bold'), text="C", command=lambda: clear()).grid(row=2, column=4, padx=(0, 15),
+                                                                                          pady=(15, 0), sticky="nsew")
 
 # Third Row
-four_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="4",
-                     command=lambda: number_click(4)).grid(row=3, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
-five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="5",
-                     command=lambda: number_click(5)).grid(row=3, column=1, sticky="nsew")
-six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="6",
-                    command=lambda: number_click(6)).grid(row=3, column=2, sticky="nsew")
-negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click()).grid(
-    row=3, column=3, padx=(15, 0), sticky="nsew")
-root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                     font=('arial', 20, 'bold'), text="√ ", command=lambda: root_click()).grid(
-    row=3, column=4, padx=(0, 15), sticky="nsew")
+seven_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="7",
+                      command=lambda: number_click(7)).grid(row=3, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
+eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="8",
+                      command=lambda: number_click(8)).grid(row=3, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
+nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
+                     command=lambda: number_click(9)).grid(row=3, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
+pi_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                   font=('arial', 20, 'bold'), text="π").grid(row=3, column=3, padx=(15, 0), pady=(15, 0),
+                                                              sticky="nsew")
+cube_root_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                          font=('arial', 20, 'bold'), text="∛").grid(row=3, column=4, padx=(0, 15), pady=(15, 0),
+                                                                     sticky="nsew")
 
 # Fourth Row
-one_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="1",
-                    command=lambda: number_click(1)).grid(row=4, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
-two_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="2",
-                    command=lambda: number_click(2)).grid(
-    row=4, column=1, sticky="nsew")
-three_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="3",
-                      command=lambda: number_click(3)).grid(
-    row=4, column=2, sticky="nsew")
-multiplication_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                               font=('arial', 20, 'bold'), text="x", command=lambda: operator_click("*")).grid(
+four_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="4",
+                     command=lambda: number_click(4)).grid(row=4, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="5",
+                     command=lambda: number_click(5)).grid(row=4, column=1, sticky="nsew")
+six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="6",
+                    command=lambda: number_click(6)).grid(row=4, column=2, sticky="nsew")
+negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                         font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click()).grid(
     row=4, column=3, padx=(15, 0), sticky="nsew")
-division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 20, 'bold'), text="÷", command=lambda: operator_click("/")).grid(
+root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                     font=('arial', 20, 'bold'), text="√ ", command=lambda: root_click()).grid(
     row=4, column=4, padx=(0, 15), sticky="nsew")
 
 # Fifth Row
+one_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="1",
+                    command=lambda: number_click(1)).grid(row=5, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+two_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="2",
+                    command=lambda: number_click(2)).grid(row=5, column=1, sticky="nsew")
+three_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="3",
+                      command=lambda: number_click(3)).grid(row=5, column=2, sticky="nsew")
+multiplication_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                               font=('arial', 20, 'bold'), text="x", command=lambda: operator_click("*")).grid(
+    row=5, column=3, padx=(15, 0), sticky="nsew")
+division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+                         font=('arial', 20, 'bold'), text="÷", command=lambda: operator_click("/")).grid(
+    row=5, column=4, padx=(0, 15), sticky="nsew")
+
+# Sixth Row
 dot_button = Button(window, width=4, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     font=('arial', 20, 'bold'), text=".", command=lambda: dot_click()).grid(
-    row=5, column=0, padx=(15, 15), pady=(15, 15), sticky="nsew")
+    row=6, column=0, padx=(15, 15), pady=(15, 15), sticky="nsew")
 zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="0",
                      command=lambda: number_click(0)).grid(
-    row=5, column=1, pady=(0, 15), sticky="nsew")
+    row=6, column=1, pady=(0, 15), sticky="nsew")
 equal_button = Button(window, width=4, height=1, bg="#fa0000", fg="#fff", activebackground="#ff3b3b",
                       font=('arial', 20, 'bold'), text="=",
                       command=lambda: equal_click()).grid(
-    row=5, column=2, padx=(15, 0), pady=(15, 15), sticky="nsew")
+    row=6, column=2, padx=(15, 0), pady=(15, 15), sticky="nsew")
 plus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                      font=('arial', 20, 'bold'), text="+", command=lambda: operator_click("+")).grid(
-    row=5, column=3, padx=(15, 0), pady=(0, 15), sticky="nsew")
+    row=6, column=3, padx=(15, 0), pady=(0, 15), sticky="nsew")
 minus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                       font=('arial', 20, 'bold'), text="-", command=lambda: operator_click("-")).grid(
-    row=5, column=4, padx=(0, 15), pady=(0, 15), sticky="nsew")
+    row=6, column=4, padx=(0, 15), pady=(0, 15), sticky="nsew")
 
 # Preventing Window From resizing
 window.resizable(0, 0)
