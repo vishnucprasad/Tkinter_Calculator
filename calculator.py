@@ -27,7 +27,7 @@ def minus_memory():
 
 
 def recall_memory():
-    global memory, number, is_memory_clicked ,on_start
+    global memory, number, is_memory_clicked, on_start
     if is_memory_used:
         number = memory
         display_value.set(number)
@@ -194,10 +194,14 @@ def equal_click():
 
 
 def delete():
-    global number, on_start ,is_operator_clicked, is_memory_clicked
+    global number, on_start, is_operator_clicked, is_memory_clicked
     length = len(number)
     if length >= 2:
         number = number[0:-1]
+    elif display_value.get() == "Cannot divide by zero":
+        number = "0"
+        display_value.set(number)
+        on_start = False
     else:
         number = "0"
         on_start = True
