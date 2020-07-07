@@ -155,6 +155,40 @@ def cube_root():
     is_calculation_complete = True
 
 
+def ten_raise_to():
+    global number, is_calculation_complete
+    result = float(number) ** 10
+    integer = result.is_integer()
+    if integer:
+        number = str(int(result))
+    else:
+        number = str(result)
+    display_value.set(number)
+    is_calculation_complete = True
+
+
+def percentage():
+    global number, is_calculation_complete, is_calculate_init
+    if is_calculate_init:
+        if operator == "+":
+            result = float(old_number) + float(number)
+        elif operator == "-":
+            result = float(old_number) - float(number)
+        elif operator == "*":
+            result = float(old_number) * float(number)
+        elif operator == "/":
+            result = float(old_number) / float(number)
+        result = result / 100
+        integer = result.is_integer()
+        if integer:
+            number = str(int(result))
+        else:
+            number = str(result)
+        display_value.set(number)
+        is_calculation_complete = True
+        is_calculate_init = False
+
+
 def pi_click():
     global number
     number = "3.141592653589793"
@@ -246,6 +280,8 @@ def perform_operation(first_number, second_number, operate_with):
             result = float(first_number) / float(second_number)
     elif operate_with == "^":
         result = float(first_number) ** float(second_number)
+    elif operate_with == "hyp":
+        trignometric_operations(first_number, second_number, operate_with)
     if is_zero_division_error:
         is_zero_division_error = False
     else:
@@ -256,6 +292,35 @@ def perform_operation(first_number, second_number, operate_with):
             to_display = result
         display_value.set(str(to_display))
         number = str(to_display)
+
+
+def trignometric_operations(first_number, second_number, operate_with):
+    global number, is_calculation_complete, is_dot_clicked
+    value = float(second_number)
+    if operate_with == "sin":
+        result = math.sin(math.radians(value))
+    elif operate_with == "cos":
+        result = math.cos(math.radians(value))
+    elif operate_with == "tan":
+        result = math.tan(math.radians(value))
+    elif operate_with == "sec":
+        result = 1/(math.cos(math.radians(value)))
+    elif operate_with == "csc":
+        result = 1 / (math.sin(math.radians(value)))
+    elif operate_with == "cot":
+        result = 1/(math.tan(math.radians(value)))
+    elif operate_with == "rad":
+        result = math.radians(value)
+    elif operate_with == "hyp":
+        result = math.hypot(float(first_number), float(second_number))
+    integer = result.is_integer()
+    if integer:
+        number = str(int(result))
+    else:
+        number = str(result)
+    display_value.set(str(number))
+    is_calculation_complete = True
+    is_dot_clicked = False
 
 
 def dark_theme():
@@ -398,34 +463,34 @@ delete_button.grid(row=1, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
 # Second Row
 sin_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Sin",
-                    command=lambda: clear_memory())
+                    command=lambda: trignometric_operations(old_number, number, "sin"))
 cos_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Cos",
-                    command=lambda: recall_memory())
+                    command=lambda: trignometric_operations(old_number, number, "cos"))
 tan_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Tan",
-                    command=lambda: plus_memory())
+                    command=lambda: trignometric_operations(old_number, number, "tan"))
 hyp_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="hyp",
-                    command=lambda: minus_memory())
+                    command=lambda: operator_click("hyp"))
 rad_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    font=('arial', 20, 'bold'), text="rad", command=lambda: delete())
+                    font=('arial', 20, 'bold'), text="rad", command=lambda: trignometric_operations(old_number, number, "rad"))
 
 # Third Row
 sec_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Sec",
-                    command=lambda: clear_memory())
+                    command=lambda: trignometric_operations(old_number, number, "sec"))
 csc_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Cse",
-                    command=lambda: recall_memory())
+                    command=lambda: trignometric_operations(old_number, number, "csc"))
 cot_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                     activeforeground="#fff", font=('arial', 20, 'bold'), text="Cot",
-                    command=lambda: plus_memory())
+                    command=lambda: trignometric_operations(old_number, number, "cot"))
 percent_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
                         activeforeground="#fff", font=('arial', 20, 'bold'), text="%",
-                        command=lambda: minus_memory())
+                        command=lambda: percentage())
 ten_raise_to_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                               font=('arial', 20, 'bold'), text="10ˣ", command=lambda: delete())
+                               font=('arial', 20, 'bold'), text="10ˣ", command=lambda: ten_raise_to())
 
 # Fourth Row
 one_by_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
