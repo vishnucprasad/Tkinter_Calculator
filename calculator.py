@@ -282,9 +282,33 @@ memory = "0"
 display_value = StringVar()
 display_value.set("0")
 on_start = True
+theme_var = IntVar()
+view_var = IntVar()
+
+# Creating Menu
+menu_bar = Menu(window)
+
+# Adding File Menu and commands
+file = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label='File', menu=file)
+show_menu = Menu(file, tearoff=0)
+file.add_cascade(label='Show ', menu=show_menu)
+show_menu.add_command(label='Show History', command=None)
+show_menu.add_command(label='Show Memory', command=None)
+theme_menu = Menu(file, tearoff=0)
+file.add_cascade(label='Theme ', menu=theme_menu)
+theme_menu.add_radiobutton(label='Light', value=0, variable=theme_var,  command=None)
+theme_menu.add_radiobutton(label='Dark', value=1, variable=theme_var, command=None)
+file.add_separator()
+file.add_command(label='Exit', command=window.destroy)
+
+# Adding View Menu and commands
+view = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label='View', menu=view)
+view.add_radiobutton(label='Standard', value=0, variable=view_var, command=None)
+view.add_radiobutton(label='Scientific', value=1, variable=view_var, command=None)
 
 # Setting Up Calculator Display
-# First Row
 display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
                 justify="right", state=DISABLED, disabledbackground="#aaa", disabledforeground="#0052cc").grid(
     columnspan=5)
@@ -403,6 +427,10 @@ minus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", active
 
 # Preventing Window From resizing
 window.resizable(0, 0)
+
+# displaying menu
+
+window.config(menu=menu_bar)
 
 # Calculator mainloop
 window.mainloop()
