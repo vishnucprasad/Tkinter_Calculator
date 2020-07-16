@@ -444,7 +444,7 @@ def show_history():
 
 def show_memory():
     memory_window = Toplevel(window)
-    memory_window.title("History")
+    memory_window.title("Memory")
     memory_window.configure(bg="#000")
     memory_window.iconphoto(False, photo)
     memory_window.geometry("500x310+585+380")
