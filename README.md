@@ -4,7 +4,7 @@ A Simple Calcullator Using Python (Tkinter)
 
 ![image](./icons/image.jpg)
 
-## JAVA Project
+## Python Project
 
 [Go to CHANGELOG](CHANGELOG.md)
 
