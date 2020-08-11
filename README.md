@@ -1,10 +1,10 @@
 # Tkinter_Calculator
 
-A Simple Calcullator Using Python (Tkinter)
+A Simple Calcullator Using Python (Tkinter GUI)
 
 ![image](./icons/image.jpg)
 
-## JAVA Project
+## Python Project
 
 [Go to CHANGELOG](CHANGELOG.md)
 
