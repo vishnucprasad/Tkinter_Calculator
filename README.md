@@ -1,10 +1,19 @@
 # Tkinter_Calculator
 
-A Simple Calcullator Using Python (Tkinter)
-
-![image](./icons/image.jpg)
-
 ## Python Project
+A Simple Calcullator Using Python (Tkinter GUI)
+
+## Light Theme
+![image](./images/Light-Theme.png)
+
+## Dark Theme
+![image](./images/Dark-Theme.png)
+
+## History Window
+![image](./images/History.png)
+
+## Memory Window
+![image](./images/Memory.png)
 
 [Go to CHANGELOG](CHANGELOG.md)
 

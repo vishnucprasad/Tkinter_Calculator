@@ -10,7 +10,7 @@ def plus_memory():
         memory = str(int(result))
     else:
         memory = str(result)
-    memory_store.append("M+ " + number)
+    memory_store.append("M+ (" + number + ")  =>  Memory = " + memory)
     is_memory_used = True
     is_memory_clicked = True
 
@@ -23,7 +23,7 @@ def minus_memory():
         memory = str(int(result))
     else:
         memory = str(result)
-    memory_store.append("M-  " + number)
+    memory_store.append("M- (" + number + ")  =>  Memory = " + memory)
     is_memory_used = True
     is_memory_clicked = True
 
@@ -275,13 +275,6 @@ def clear():
     display_value.set(number)
 
 
-def clear_entry():
-    global number, on_start
-    on_start = True
-    number = "0"
-    display_value.set(number)
-
-
 def perform_operation(first_number, second_number, operate_with):
     global number, is_zero_division_error
     if operate_with == "+":
@@ -354,43 +347,36 @@ def trignometric_operations(second_number, operate_with):
 
 
 def dark_theme():
+    displays = [display, operation_display]
     number_buttons = [one_button, two_button, three_button, four_button, five_button, six_button, seven_button,
                       eight_button, nine_button, zero_button]
-    operator_buttons = [plus_button, minus_button, multiplication_button, division_button, negative_button, root_button,
-                        pi_button, cube_root_button, raise_to_button, square_button, one_by_x_button, dot_button,
-                        sin_button, cos_button, tan_button, sec_button, csc_button, cot_button, hyp_button, rad_button,
-                        percent_button, ten_raise_to_x_button]
-    memory_control_buttons = [memory_plus_button, memory_minus_button, memory_recall_button, memory_clear_button]
-    clear_control_buttons = [clear_button, clear_entry_button, delete_button]
+    memory_control_buttons = [memory_plus_button, memory_minus_button, memory_recall_button, memory_clear_button,
+                              memory_show_button, raise_to_button, square_button, one_by_x_button, sin_button,
+                              cos_button, tan_button, sec_button, csc_button, cot_button, hyp_button, rad_button,
+                              percent_button, ten_raise_to_x_button]
+    for i in displays:
+        i.config(disabledbackground="#000000", disabledforeground="#ffffff")
     for i in number_buttons:
-        i.config(bg="#000", fg="#fff", activebackground="#222", activeforeground="#fff")
-    for i in operator_buttons:
-        i.config(bg="#555", fg="#fff", activebackground="#777", activeforeground="#fff")
+        i.config(bg="#000", fg="#fff", activebackground="#333", activeforeground="#fff")
     for i in memory_control_buttons:
-        i.config(bg="#29542b", fg="#fff", activebackground="#2d6630", activeforeground="#fff")
-    for i in clear_control_buttons:
-        i.config(bg="#232a75", fg="#fff", activebackground="#313887", activeforeground="#fff")
-    equal_button.config(bg="#b88d0f", fg="#fff", activebackground="#dea910", activeforeground="#fff")
+        i.config(bg="#333", fg="#fff", activebackground="#000", activeforeground="#fff")
+    window.config(bg="#000")
 
 
 def light_theme():
     number_buttons = [one_button, two_button, three_button, four_button, five_button, six_button, seven_button,
                       eight_button, nine_button, zero_button]
-    operator_buttons = [plus_button, minus_button, multiplication_button, division_button, negative_button, root_button,
-                        pi_button, cube_root_button, raise_to_button, square_button, one_by_x_button, dot_button,
-                        sin_button, cos_button, tan_button, sec_button, csc_button, cot_button, hyp_button, rad_button,
-                        percent_button, ten_raise_to_x_button]
-    memory_control_buttons = [memory_plus_button, memory_minus_button, memory_recall_button, memory_clear_button]
-    clear_control_buttons = [clear_button, clear_entry_button, delete_button]
+    memory_control_buttons = [memory_plus_button, memory_minus_button, memory_recall_button, memory_clear_button,
+                              memory_show_button, raise_to_button, square_button, one_by_x_button, sin_button,
+                              cos_button, tan_button, sec_button, csc_button, cot_button, hyp_button, rad_button,
+                              percent_button, ten_raise_to_x_button]
     for i in number_buttons:
-        i.config(bg="#fff", fg="#00f", activebackground="#eee")
-    for i in operator_buttons:
-        i.config(bg="#0052cc", fg="#fff", activebackground="#006cfa", activeforeground="#000")
+        i.config(bg="#fff", fg="#000", activebackground="#eee", activeforeground="#000")
     for i in memory_control_buttons:
-        i.config(bg="#018729", fg="#fff", activebackground="#01942d", activeforeground="#fff")
-    for i in clear_control_buttons:
-        i.config(bg="#ff6f00", fg="#fff", activebackground="#fa8100", activeforeground="#000")
-    equal_button.config(bg="#fa0000", fg="#fff", activebackground="#ff3b3b", activeforeground="#000")
+        i.config(bg="#eee", fg="#000", activebackground="#fff", activeforeground="#000")
+    display.config(disabledbackground="#ffffff", disabledforeground="#000000")
+    operation_display.config(disabledbackground="#ffffff", disabledforeground="#aaaaaa")
+    window.config(bg="#fff")
 
 
 def standard():
@@ -401,19 +387,19 @@ def standard():
 
 
 def scientific():
-    sin_button.grid(row=2, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
-    cos_button.grid(row=2, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
-    tan_button.grid(row=2, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-    hyp_button.grid(row=2, column=3, padx=(15, 0), pady=(15, 0), sticky="nsew")
-    rad_button.grid(row=2, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
-    sec_button.grid(row=3, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
-    csc_button.grid(row=3, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
-    cot_button.grid(row=3, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
-    percent_button.grid(row=3, column=3, padx=(15, 0), pady=(0, 0), sticky="nsew")
-    ten_raise_to_x_button.grid(row=3, column=4, padx=(0, 15), pady=(0, 0), sticky="nsew")
+    sin_button.grid(row=3, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+    cos_button.grid(row=3, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    tan_button.grid(row=3, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    hyp_button.grid(row=3, column=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    rad_button.grid(row=3, column=4, padx=(0, 15), pady=(0, 0), sticky="nsew")
+    sec_button.grid(row=4, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+    csc_button.grid(row=4, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    cot_button.grid(row=4, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    percent_button.grid(row=4, column=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+    ten_raise_to_x_button.grid(row=4, column=4, padx=(0, 15), pady=(0, 0), sticky="nsew")
     bottom_buttons = [zero_button, plus_button, minus_button]
-    dot_button.grid(pady=(15, 15))
-    equal_button.grid(pady=(15, 15))
+    dot_button.grid(pady=(0, 15))
+    equal_button.grid(pady=(0, 15))
     for i in bottom_buttons:
         i.grid(pady=(0, 15))
 
@@ -423,11 +409,11 @@ def show_history():
     history_window.title("History")
     history_window.configure(bg="#000")
     history_window.iconphoto(False, photo)
-    history_window.geometry("500x310+585+10")
+    history_window.geometry("756x300+5+500")
     scrollbar = Scrollbar(history_window)
     scrollbar.pack(side=RIGHT, fill=Y)
 
-    history_list = Listbox(history_window, bg="#000", fg="#fff", width=31, height=8, font=('arial', 20, 'bold'))
+    history_list = Listbox(history_window, bg="#000", fg="#fff", width=50, height=8, font=('arial', 20, 'bold'))
     history_list.pack(padx=(15, 15), pady=(15, 15))
 
     if history == []:
@@ -447,11 +433,11 @@ def show_memory():
     memory_window.title("Memory")
     memory_window.configure(bg="#000")
     memory_window.iconphoto(False, photo)
-    memory_window.geometry("500x310+585+380")
+    memory_window.geometry("756x300+5+500")
     scrollbar = Scrollbar(memory_window)
     scrollbar.pack(side=RIGHT, fill=Y)
 
-    memory_list = Listbox(memory_window, bg="#000", fg="#fff", width=31, height=8, font=('arial', 20, 'bold'))
+    memory_list = Listbox(memory_window, bg="#000", fg="#fff", width=50, height=8, font=('arial', 20, 'bold'))
     memory_list.pack(padx=(15, 15), pady=(15, 15))
 
     if memory_store == []:
@@ -469,7 +455,7 @@ def show_memory():
 # Setting Up Calculator Window
 window = Tk()
 window.title("Calculator")
-window.configure(bg="#000")
+window.configure(bg="#ffffff")
 window.geometry("+5+10")
 # Setting Up Window Icon
 photo = PhotoImage(file="icons/icon.png")
@@ -488,6 +474,7 @@ operator = "+"
 number = "0"
 old_number = "0"
 memory = "0"
+operation_value = StringVar()
 display_value = StringVar()
 display_value.set("0")
 on_start = True
@@ -506,12 +493,14 @@ show_menu = Menu(file, tearoff=0)
 file.add_cascade(label='Show ', menu=show_menu)
 show_menu.add_command(label='Show History', command=lambda: show_history())
 show_menu.add_command(label='Show Memory', command=lambda: show_memory())
-theme_menu = Menu(file, tearoff=0)
-file.add_cascade(label='Theme ', menu=theme_menu)
-theme_menu.add_radiobutton(label='Light', value=0, variable=theme_var, command=lambda: light_theme())
-theme_menu.add_radiobutton(label='Dark', value=1, variable=theme_var, command=lambda: dark_theme())
 file.add_separator()
 file.add_command(label='Exit', command=window.destroy)
+
+# Adding Theme Menu and commands
+Theme = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label='Theme', menu=Theme)
+Theme.add_radiobutton(label='Light', value=0, variable=theme_var, command=lambda: light_theme())
+Theme.add_radiobutton(label='Dark', value=1, variable=theme_var, command=lambda: dark_theme())
 
 # Adding View Menu and commands
 view = Menu(menu_bar, tearoff=0)
@@ -520,150 +509,167 @@ view.add_radiobutton(label='Standard', value=0, variable=view_var, command=lambd
 view.add_radiobutton(label='Scientific', value=1, variable=view_var, command=lambda: scientific())
 
 # Setting Up Calculator Display
-display = Entry(window, font=('arial', 30, 'bold'), textvariable=display_value, width=25, bd=10, insertwidth=4,
-                justify="right", state=DISABLED, disabledbackground="#aaa", disabledforeground="#0052cc").grid(
-    columnspan=5)
+operation_display = Entry(window, font=('arial', 40), textvariable=operation_value, bd=0, width=25, insertwidth=4,
+                          justify="right", state=DISABLED, disabledbackground="#ffffff",
+                          disabledforeground="#aaaaaa")
+operation_display.grid(columnspan=5, padx=(15, 15))
+
+display = Entry(window, font=('arial', 40), textvariable=display_value, bd=0, width=25, insertwidth=4,
+                justify="right", state=DISABLED, disabledbackground="#ffffff", disabledforeground="#000000")
+display.grid(columnspan=5, padx=(15, 15))
 
 # Setting up Calculator Buttons
 # First Row
-memory_clear_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                             activeforeground="#fff", font=('arial', 15, 'bold'), text="MC",
+memory_clear_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                             font=('arial', 15), text="MC",
                              command=lambda: clear_memory())
-memory_clear_button.grid(row=1, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
-memory_recall_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                              activeforeground="#fff", font=('arial', 15, 'bold'), text="MR",
+memory_clear_button.grid(row=2, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
+memory_recall_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                              font=('arial', 15), text="MR",
                               command=lambda: recall_memory())
-memory_recall_button.grid(row=1, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
-memory_plus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                            activeforeground="#fff", font=('arial', 15, 'bold'), text="M+",
+memory_recall_button.grid(row=2, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
+memory_plus_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                            font=('arial', 15), text="M+",
                             command=lambda: plus_memory())
-memory_plus_button.grid(row=1, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-memory_minus_button = Button(window, width=5, height=1, bg="#018729", fg="#fff", activebackground="#01942d",
-                             activeforeground="#fff", font=('arial', 15, 'bold'), text="M-",
+memory_plus_button.grid(row=2, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
+memory_minus_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                             font=('arial', 15), text="M-",
                              command=lambda: minus_memory())
-memory_minus_button.grid(row=1, column=3, padx=(0, 15), pady=(15, 0), sticky="nsew")
-delete_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                       font=('arial', 15, 'bold'), text="⌫", command=lambda: delete())
-delete_button.grid(row=1, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
+memory_minus_button.grid(row=2, column=3, padx=(0, 0), pady=(15, 0), sticky="nsew")
+memory_show_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                            font=('arial', 15), text="MS", command=lambda: show_memory())
+memory_show_button.grid(row=2, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
 
 # Second Row
-sin_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Sin",
+sin_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Sin",
                     command=lambda: trignometric_operations(number, "sin"))
-cos_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Cos",
+cos_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Cos",
                     command=lambda: trignometric_operations(number, "cos"))
-tan_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Tan",
+tan_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Tan",
                     command=lambda: trignometric_operations(number, "tan"))
-hyp_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="hyp",
+hyp_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="hyp",
                     command=lambda: operator_click("hyp"))
-rad_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    font=('arial', 15, 'bold'), text="rad",
+rad_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    font=('arial', 15), text="rad",
                     command=lambda: trignometric_operations(number, "rad"))
 
 # Third Row
-sec_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Sec",
+sec_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Sec",
                     command=lambda: trignometric_operations(number, "sec"))
-csc_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Cse",
+csc_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Cse",
                     command=lambda: trignometric_operations(number, "csc"))
-cot_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                    activeforeground="#fff", font=('arial', 15, 'bold'), text="Cot",
+cot_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                    activeforeground="#fff", font=('arial', 15), text="Cot",
                     command=lambda: trignometric_operations(number, "cot"))
-percent_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                        activeforeground="#fff", font=('arial', 15, 'bold'), text="%",
+percent_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                        activeforeground="#fff", font=('arial', 15), text="%",
                         command=lambda: percentage())
-ten_raise_to_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                               font=('arial', 15, 'bold'), text="10ˣ", command=lambda: ten_raise_to())
+ten_raise_to_x_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                               font=('arial', 15), text="10ˣ", command=lambda: ten_raise_to())
 
 # Fourth Row
-one_by_x_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 15, 'bold'), text="¹/x", command=lambda: one_by_x_click())
-one_by_x_button.grid(row=4, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
-square_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                       font=('arial', 15, 'bold'), text="x²", command=lambda: square_click())
-square_button.grid(row=4, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
-raise_to_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
-                         font=('arial', 15, 'bold'), text="xʸ", command=lambda: operator_click("^"))
-raise_to_button.grid(row=4, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-clear_entry_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                            font=('arial', 15, 'bold'), text="CE", command=lambda: clear_entry())
-clear_entry_button.grid(row=4, column=3, padx=(15, 0), pady=(15, 0), sticky="nsew")
-clear_button = Button(window, width=5, height=1, bg="#ff6f00", fg="#fff", activebackground="#fa8100",
-                      font=('arial', 15, 'bold'), text="C", command=lambda: clear())
-clear_button.grid(row=4, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
+one_by_x_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                         font=('arial', 15), text="¹/x", command=lambda: one_by_x_click())
+one_by_x_button.grid(row=5, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+square_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                       font=('arial', 15), text="x²", command=lambda: square_click())
+square_button.grid(row=5, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+raise_to_button = Button(window, width=5, height=1, bd=0, bg="#eee", fg="#000", activebackground="#fff",
+                         font=('arial', 15), text="xʸ", command=lambda: operator_click("^"))
+raise_to_button.grid(row=5, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+clear_button = Button(window, width=5, height=1, bd=0, bg="#ff4625", fg="#fff", activebackground="#ff3815",
+                      activeforeground="#fff",
+                      font=('arial', 15), text="C", command=lambda: clear())
+clear_button.grid(row=5, column=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+delete_button = Button(window, width=5, height=1, bd=0, bg="#ff4625", fg="#fff", activebackground="#ff3815",
+                       activeforeground="#fff",
+                       font=('arial', 15), text="⌫", command=lambda: delete())
+delete_button.grid(row=5, column=4, padx=(0, 15), pady=(0, 0), sticky="nsew")
 
 # Fifth Row
-seven_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="7",
+seven_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="7",
                       command=lambda: number_click(7))
-seven_button.grid(row=5, column=0, padx=(15, 0), pady=(15, 0), sticky="nsew")
-eight_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="8",
+seven_button.grid(row=6, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+eight_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="8",
                       command=lambda: number_click(8))
-eight_button.grid(row=5, column=1, padx=(0, 0), pady=(15, 0), sticky="nsew")
-nine_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="9",
+eight_button.grid(row=6, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+nine_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="9",
                      command=lambda: number_click(9))
-nine_button.grid(row=5, column=2, padx=(0, 0), pady=(15, 0), sticky="nsew")
-pi_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+nine_button.grid(row=6, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+pi_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                   activeforeground="#fff",
                    font=('arial', 20, 'bold'), text="π", command=lambda: pi_click())
-pi_button.grid(row=5, column=3, padx=(15, 0), pady=(15, 0), sticky="nsew")
-cube_root_button = Button(window, width=5, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+pi_button.grid(row=6, column=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+cube_root_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                          activeforeground="#fff",
                           font=('arial', 20, 'bold'), text="∛", command=lambda: cube_root())
-cube_root_button.grid(row=5, column=4, padx=(0, 15), pady=(15, 0), sticky="nsew")
+cube_root_button.grid(row=6, column=4, padx=(0, 15), pady=(0, 0), sticky="nsew")
 
 # Sixth Row
-four_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="4",
+four_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="4",
                      command=lambda: number_click(4))
-four_button.grid(row=6, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
-five_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="5",
+four_button.grid(row=7, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+five_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="5",
                      command=lambda: number_click(5))
-five_button.grid(row=6, column=1, sticky="nsew")
-six_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="6",
+five_button.grid(row=7, column=1, sticky="nsew")
+six_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="6",
                     command=lambda: number_click(6))
-six_button.grid(row=6, column=2, sticky="nsew")
-negative_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+six_button.grid(row=7, column=2, sticky="nsew")
+negative_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                         activeforeground="#fff",
                          font=('arial', 20, 'bold'), text="+/-", command=lambda: negative_click())
-negative_button.grid(row=6, column=3, padx=(15, 0), sticky="nsew")
-root_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+negative_button.grid(row=7, column=3, padx=(0, 0), sticky="nsew")
+root_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                     activeforeground="#fff",
                      font=('arial', 20, 'bold'), text="√ ", command=lambda: root_click())
-root_button.grid(row=6, column=4, padx=(0, 15), sticky="nsew")
+root_button.grid(row=7, column=4, padx=(0, 15), sticky="nsew")
 
 # Seventh Row
-one_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="1",
+one_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="1",
                     command=lambda: number_click(1))
-one_button.grid(row=7, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
-two_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="2",
+one_button.grid(row=8, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
+two_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="2",
                     command=lambda: number_click(2))
-two_button.grid(row=7, column=1, sticky="nsew")
-three_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="3",
+two_button.grid(row=8, column=1, sticky="nsew")
+three_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="3",
                       command=lambda: number_click(3))
-three_button.grid(row=7, column=2, sticky="nsew")
-multiplication_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+three_button.grid(row=8, column=2, sticky="nsew")
+multiplication_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                               activeforeground="#fff",
                                font=('arial', 20, 'bold'), text="x", command=lambda: operator_click("*"))
-multiplication_button.grid(row=7, column=3, padx=(15, 0), sticky="nsew")
-division_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+multiplication_button.grid(row=8, column=3, padx=(0, 0), sticky="nsew")
+division_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                         activeforeground="#fff",
                          font=('arial', 20, 'bold'), text="÷", command=lambda: operator_click("/"))
-division_button.grid(row=7, column=4, padx=(0, 15), sticky="nsew")
+division_button.grid(row=8, column=4, padx=(0, 15), sticky="nsew")
 
 # Eighth Row
-dot_button = Button(window, width=4, height=1, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+dot_button = Button(window, width=5, height=1, bd=0, bg="#ff4625", fg="#fff", activebackground="#ff3815",
+                    activeforeground="#fff",
                     font=('arial', 20, 'bold'), text=".", command=lambda: dot_click())
-dot_button.grid(row=8, column=0, padx=(15, 15), pady=(15, 35), sticky="nsew")
-zero_button = Button(window, width=5, height=2, bg="#fff", fg="#00f", font=('arial', 20, 'bold'), text="0",
+dot_button.grid(row=9, column=0, padx=(15, 0), pady=(0, 35), sticky="nsew")
+zero_button = Button(window, width=5, height=1, bd=0, bg="#fff", fg="#000000", font=('arial', 20), text="0",
                      command=lambda: number_click(0))
-zero_button.grid(row=8, column=1, pady=(0, 35), sticky="nsew")
-equal_button = Button(window, width=4, height=1, bg="#fa0000", fg="#fff", activebackground="#ff3b3b",
+zero_button.grid(row=9, column=1, pady=(0, 35), sticky="nsew")
+equal_button = Button(window, width=5, height=1, bd=0, bg="#ff4625", fg="#fff", activebackground="#ff3815",
+                      activeforeground="#fff",
                       font=('arial', 20, 'bold'), text="=",
                       command=lambda: equal_click())
-equal_button.grid(row=8, column=2, padx=(15, 0), pady=(15, 35), sticky="nsew")
-plus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+equal_button.grid(row=9, column=2, padx=(0, 0), pady=(0, 35), sticky="nsew")
+plus_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                     activeforeground="#fff",
                      font=('arial', 20, 'bold'), text="+", command=lambda: operator_click("+"))
-plus_button.grid(row=8, column=3, padx=(15, 0), pady=(0, 35), sticky="nsew")
-minus_button = Button(window, width=5, height=2, bg="#0052cc", fg="#fff", activebackground="#006cfa",
+plus_button.grid(row=9, column=3, padx=(0, 0), pady=(0, 35), sticky="nsew")
+minus_button = Button(window, width=5, height=1, bd=0, bg="#f07800", fg="#fff", activebackground="#f08113",
+                      activeforeground="#fff",
                       font=('arial', 20, 'bold'), text="-", command=lambda: operator_click("-"))
-minus_button.grid(row=8, column=4, padx=(0, 15), pady=(0, 35), sticky="nsew")
+minus_button.grid(row=9, column=4, padx=(0, 15), pady=(0, 35), sticky="nsew")
 
 # Preventing Window From resizing
 window.resizable(0, 0)
