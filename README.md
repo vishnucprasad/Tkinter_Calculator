@@ -6,7 +6,7 @@ A Simple Calcullator Using Python (Tkinter GUI)
 ## Light Theme
 ![image](./images/Light-Theme.png)
 
-##Dark Theme
+## Dark Theme
 ![image](./images/Dark-Theme.png)
 
 ## History Window
