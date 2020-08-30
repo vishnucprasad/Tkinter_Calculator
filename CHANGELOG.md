@@ -1,4 +1,14 @@
 ## Changelog
+
+2020-08-30  Vishnu_C_Prasad  <mr.vishnucp001@outlook.com>
+
+    * Added: Another screen to display performed operations
+    * Design modified
+        > Modified: Overall design modified
+        > Modified: History window and Memory window are now open in both dark and light colours based on Calculator theme 
+    * Added: Functions to set values to secondary screen
+    * Fixed some bugs
+
 2020-07-08  Vishnu_C_Prasad  <mr.vishnucp001@outlook.com>
 
     * Added: MenuBar

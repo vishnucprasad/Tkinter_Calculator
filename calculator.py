@@ -52,6 +52,7 @@ def number_click(value):
         is_operator_clicked = False
         is_memory_clicked = False
     elif is_calculation_complete:
+        operation_value.set("")
         number = str(value)
         display_value.set(number)
         is_calculation_complete = False
@@ -67,13 +68,16 @@ def number_click(value):
 def operator_click(operation):
     global operator, is_operator_clicked, old_number, number, is_calculate_init, is_dot_clicked, is_calculation_complete, on_start
     if is_operator_clicked:
+        operation_value.set(operation_value.get()[0:-1] + operation)
         operator = operation
     elif is_calculate_init:
+        operation_value.set(operation_value.get() + number + operation)
         perform_operation(old_number, number, operator)
         is_operator_clicked = True
         operator = operation
         old_number = number
     else:
+        operation_value.set(operation_value.get() + number + operation)
         operator = operation
         old_number = number
         is_operator_clicked = True
@@ -85,6 +89,7 @@ def operator_click(operation):
 
 def one_by_x_click():
     global number, is_calculation_complete
+    operation_value.set(operation_value.get() + "1/" + number)
     if number == "0":
         display_value.set("Cannot divide by zero")
         history.append("¹/" + number + " = " + "Cannot divide by zero")
@@ -121,6 +126,7 @@ def negative_click():
 
 def square_click():
     global number, is_calculation_complete
+    operation_value.set(operation_value.get() + number + "^2")
     value = float(number)
     value *= value
     history.append(number + "² = " + str(value))
@@ -135,6 +141,7 @@ def square_click():
 
 def root_click():
     global number, is_calculation_complete
+    operation_value.set(operation_value.get() + "√" + number)
     result = math.sqrt(float(number))
     history.append("√" + number + " = " + str(result))
     integer = result.is_integer()
@@ -148,6 +155,7 @@ def root_click():
 
 def cube_root():
     global number, is_calculation_complete
+    operation_value.set(operation_value.get() + "∛" + number)
     value = float(number)
     if value >= 0:
         result = value ** (1. / 3.)
@@ -165,7 +173,8 @@ def cube_root():
 
 def ten_raise_to():
     global number, is_calculation_complete
-    result = float(number) ** 10
+    operation_value.set(operation_value.get() + "10^" + number)
+    result = 10 ** float(number)
     history.append(number + "^10" + " = " + str(result))
     integer = result.is_integer()
     if integer:
@@ -178,6 +187,7 @@ def ten_raise_to():
 
 def percentage():
     global number, is_calculation_complete, is_calculate_init
+    operation_value.set(operation_value.get() + number + "%")
     if is_calculate_init:
         if operator == "+":
             result = float(old_number) + float(number)
@@ -235,6 +245,7 @@ def dot_click():
 
 def equal_click():
     global is_calculate_init, is_dot_clicked, is_calculation_complete
+    operation_value.set(operation_value.get() + number + "=")
     if is_calculate_init:
         is_calculate_init = False
         perform_operation(old_number, number, operator)
@@ -272,6 +283,7 @@ def clear():
     operator = "+"
     old_number = "0"
     number = "0"
+    operation_value.set("")
     display_value.set(number)
 
 
@@ -314,6 +326,7 @@ def perform_operation(first_number, second_number, operate_with):
 
 def trignometric_operations(second_number, operate_with):
     global number, is_calculation_complete, is_dot_clicked
+    operation_value.set(operation_value.get() + operate_with + "(" + second_number + ")")
     value = float(second_number)
     if operate_with == "sin":
         result = math.sin(math.radians(value))
@@ -347,6 +360,7 @@ def trignometric_operations(second_number, operate_with):
 
 
 def dark_theme():
+    global is_dark_theme
     displays = [display, operation_display]
     number_buttons = [one_button, two_button, three_button, four_button, five_button, six_button, seven_button,
                       eight_button, nine_button, zero_button]
@@ -361,9 +375,11 @@ def dark_theme():
     for i in memory_control_buttons:
         i.config(bg="#333", fg="#fff", activebackground="#000", activeforeground="#fff")
     window.config(bg="#000")
+    is_dark_theme = True
 
 
 def light_theme():
+    global is_dark_theme
     number_buttons = [one_button, two_button, three_button, four_button, five_button, six_button, seven_button,
                       eight_button, nine_button, zero_button]
     memory_control_buttons = [memory_plus_button, memory_minus_button, memory_recall_button, memory_clear_button,
@@ -377,16 +393,20 @@ def light_theme():
     display.config(disabledbackground="#ffffff", disabledforeground="#000000")
     operation_display.config(disabledbackground="#ffffff", disabledforeground="#aaaaaa")
     window.config(bg="#fff")
+    is_dark_theme = False
 
 
 def standard():
+    global is_standard
     scientific_buttons = [sin_button, cos_button, tan_button, sec_button, csc_button, cot_button, hyp_button,
                           rad_button, percent_button, ten_raise_to_x_button]
     for i in scientific_buttons:
         i.grid_forget()
+    is_standard = True
 
 
 def scientific():
+    global is_standard
     sin_button.grid(row=3, column=0, padx=(15, 0), pady=(0, 0), sticky="nsew")
     cos_button.grid(row=3, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
     tan_button.grid(row=3, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
@@ -402,19 +422,30 @@ def scientific():
     equal_button.grid(pady=(0, 15))
     for i in bottom_buttons:
         i.grid(pady=(0, 15))
+    is_standard = False
 
 
 def show_history():
     history_window = Toplevel(window)
     history_window.title("History")
-    history_window.configure(bg="#000")
     history_window.iconphoto(False, photo)
-    history_window.geometry("756x300+5+500")
     scrollbar = Scrollbar(history_window)
     scrollbar.pack(side=RIGHT, fill=Y)
 
+    if is_standard:
+        history_window.geometry("756x240+5+490")
+    else:
+        history_window.geometry("756x240+5+560")
+
     history_list = Listbox(history_window, bg="#000", fg="#fff", width=50, height=8, font=('arial', 20, 'bold'))
     history_list.pack(padx=(15, 15), pady=(15, 15))
+
+    if is_dark_theme:
+        history_window.configure(bg="#000")
+        history_list.config(bg="#000", fg="#fff")
+    else:
+        history_window.configure(bg="#fff")
+        history_list.config(bg="#fff", fg="#000")
 
     if history == []:
         history_list.insert(END, "Nothing to show")
@@ -431,14 +462,24 @@ def show_history():
 def show_memory():
     memory_window = Toplevel(window)
     memory_window.title("Memory")
-    memory_window.configure(bg="#000")
     memory_window.iconphoto(False, photo)
-    memory_window.geometry("756x300+5+500")
     scrollbar = Scrollbar(memory_window)
     scrollbar.pack(side=RIGHT, fill=Y)
 
+    if is_standard:
+        memory_window.geometry("756x240+5+490")
+    else:
+        memory_window.geometry("756x240+5+560")
+
     memory_list = Listbox(memory_window, bg="#000", fg="#fff", width=50, height=8, font=('arial', 20, 'bold'))
     memory_list.pack(padx=(15, 15), pady=(15, 15))
+
+    if is_dark_theme:
+        memory_window.configure(bg="#000")
+        memory_list.config(bg="#000", fg="#fff")
+    else:
+        memory_window.configure(bg="#fff")
+        memory_list.config(bg="#fff", fg="#000")
 
     if memory_store == []:
         memory_list.insert(END, "Nothing to show")
@@ -470,6 +511,8 @@ is_positive = True
 is_memory_used = False
 is_memory_clicked = False
 is_zero_division_error = False
+is_dark_theme = False
+is_standard = True
 operator = "+"
 number = "0"
 old_number = "0"
@@ -509,10 +552,10 @@ view.add_radiobutton(label='Standard', value=0, variable=view_var, command=lambd
 view.add_radiobutton(label='Scientific', value=1, variable=view_var, command=lambda: scientific())
 
 # Setting Up Calculator Display
-operation_display = Entry(window, font=('arial', 40), textvariable=operation_value, bd=0, width=25, insertwidth=4,
+operation_display = Entry(window, font=('arial', 20), textvariable=operation_value, bd=0, width=48, insertwidth=4,
                           justify="right", state=DISABLED, disabledbackground="#ffffff",
                           disabledforeground="#aaaaaa")
-operation_display.grid(columnspan=5, padx=(15, 15))
+operation_display.grid(columnspan=5, padx=(15, 15), pady=(0, 15))
 
 display = Entry(window, font=('arial', 40), textvariable=display_value, bd=0, width=25, insertwidth=4,
                 justify="right", state=DISABLED, disabledbackground="#ffffff", disabledforeground="#000000")
