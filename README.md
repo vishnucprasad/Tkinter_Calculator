@@ -25,5 +25,5 @@ If you found a bug, have a question or an idea, please check [Tkinter_Calculator
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ```
-                                                 © 2020 VISHNU C Prasad
+                                                 © 2020 VISHNU C PRASAD
 ```
